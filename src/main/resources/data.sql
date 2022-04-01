@@ -1,0 +1,1 @@
+INSERT into tbl_employees (id,name,email,department) values(999,'joel','hjoel87@gmx.ch','testing');

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>List Employees</title>
+<!-- go to https://datatables.net/download/index for sorting and pagination of table. on the website, select following:
+ 	step1: 'bootstrap4', 
+ 	step2: jquery3, bootstrap4, dataTables
+ 	step3: Minify, Concatenate. 
+ 	
+ copy the style sheets and add / replace it with existing bootstrap stylesheet. then copy also the script and do the same (add / replace)
+ 
+ -> it only worked for me when i selected jQuery 3 too!!
+
+-->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/datatables.min.css"/>
+ 
+</head>
+<body>
+	<div class="container">
+		<h2>List Employees</h2>
+		<hr/>
+		<a th:href="@{/addEmployeeForm}" class="btn btn-primary mb-2">Add new Employee</a> <!-- margin bottom 2 -->
+		<table class="table table-bordered table-striped" id="employee-table">
+			<thead>
+				<tr>
+					<th>Employee Name</th>
+					<th>Employee Email</th>
+					<th>Employee Department</th>
+					<th>Action</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="employee: ${employees}">
+					<td th:text="${employee.name}"></td>
+					<td th:text="${employee.email}"></td>
+					<td th:text="${employee.department}"></td>
+					<td>
+						<a th:href="@{/showUpdateForm(employeeId=${employee.id})}" class="btn btn-info">Update</a>
+					</td>
+					<td>
+						<a th:href="@{/deleteEmployee(employeeId=${employee.id})}" class="btn btn-danger ml-2">Delete</a> <!-- margin left -->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- jQuery library -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$("#employee-table").DataTable({ //get element with this id
+			'aoColumnDefs': [{
+				'bSortable': false,
+				'aTargets': [-1,-2] //remove sorting for 'Update' and 'Delete' column
+			}]
+		});
+	})
+</script>
+
+</body>
+</html>
